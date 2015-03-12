@@ -11,6 +11,17 @@ import Foundation
 enum Side {
     case White
     case Black
+    
+    mutating func alt() {
+        switch self {
+        case White:
+            self = Black
+        case Black:
+            self = White
+        default:
+            break
+        }
+    }
 }
 
 enum PieceObject {
@@ -21,10 +32,12 @@ enum PieceObject {
 
 struct PlaceCommand {
     var side : Side
+    var location : (Int, Int)
     var completion : (Bool) -> ()
     
-    init(s: Side, c: (Bool) -> ()) {
+    init(s: Side, l: (Int, Int) ,c: (Bool) -> ()) {
         side = s
+        location = l
         completion = c
     }
 }

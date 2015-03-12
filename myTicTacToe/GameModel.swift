@@ -9,10 +9,9 @@
 import UIKit
 
 
-protocol GameModelProtocal : class {
+protocol GameModelProtocol : class {
     
-    func placeAPiece(location : (Int, Int), value : Int)
-    
+    func placeAPiece(location : (Int, Int), side : Side)
 }
 
 
@@ -22,13 +21,14 @@ class GameModel : NSObject {
     
     let dimension : Int
     let threshold : Int
+    let side : Side
     
     
     var gameboard : SquareGameboard<PieceObject>
     
-    let delegate : GameModelProtocal
+    let delegate : GameModelProtocol
     
-    var queue : [MoveCommand]
+    var queue : [PlaceCommand]
     var timer : NSTimer
     
     let maxCommands = 5
@@ -38,6 +38,7 @@ class GameModel : NSObject {
         
         dimension = d
         threshold = t
+        side = Side.Black
         
         self.delegate = delegate
         
@@ -55,12 +56,12 @@ class GameModel : NSObject {
         timer.invalidate()
     }
     
-    func queueMove(location : (Int, Int), completion : (Bool) -> ()) {
+    func queueMove(side : Side, location : (Int, Int), completion : (Bool) -> ()) {
         if queue.count > maxCommands {
             return
         }
         
-        let command = PlaceCommand(s : side, c : completion)
+        let command = PlaceCommand(s : side, l : location ,c : completion)
         queue.append(command)
         
         if (!timer.valid) {
@@ -79,7 +80,7 @@ class GameModel : NSObject {
         while queue.count > 0 {
             let command = queue[0]
             queue.removeAtIndex(0)
-            changed = performMove(command.direction)
+            changed = performMove(command.location, side: command.side)
             command.completion(changed)
             if changed {
                 // If the command doesn't change anything, we immediately run the next one
@@ -96,19 +97,54 @@ class GameModel : NSObject {
         }
     }
     
-    func insertPiece(location : (Int, Int), side : Side) {
+    func placeAPiece(location : (Int, Int), side : Side) {
         let (x, y) = location
         switch gameboard[x, y] {
         case .Empty:
             gameboard[x, y] = PieceObject.Piece(side)
-            delegate.insertPiece(location, side: side)
+            delegate.placeAPiece(location, side : side)
         default:
             break
             
         }
     }
     
-    func sideHasWon(Side side) {
+    func insertTileAtRandomLocation(value: Int) {
+        let openSpots = gameboardEmptySpots()
+        if openSpots.count == 0 {
+            // No more open spots; don't even bother
+            return
+        }
+        // Randomly select an open spot, and put a new tile there
+        let idx = Int(arc4random_uniform(UInt32(openSpots.count-1)))
+        let (x, y) = openSpots[idx]
+        placeAPiece((x, y), side: side)
+    }
+    
+    func gameboardEmptySpots() -> [(Int, Int)] {
+        var buffer = Array<(Int, Int)>()
+        for i in 0..<dimension {
+            for j in 0..<dimension {
+                switch gameboard[i, j] {
+                case .Empty:
+                    buffer += [(i, j)]
+                case .Tile:
+                    break
+                }
+            }
+        }
+        return buffer
+    }
+    
+    
+    func performMove(location : (Int, Int), side : Side) -> Bool {
+        
+        
+        
+        return false
+    }
+    
+    func sideHasWon(side : Side) -> Bool {
 //        for i in 0..<dimension {
         
         return false

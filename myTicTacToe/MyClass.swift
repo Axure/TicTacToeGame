@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+
+class myClass {
+    
+    func factorial(num: Int) -> Int {
+        return num;
+    }
+}

@@ -20,6 +20,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func buttonPressed(sender: AnyObject) {
+        let game = TicTacToeGameViewController(dimension: 3, threshold: 3)
+        self.presentViewController(game, animated: true, completion: nil)
+        
+    }
 
 }
 
