@@ -100,7 +100,7 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
             piecePadding: padding,
             cornerRadius: 6,
             backgroundColor: UIColor.blackColor(),
-            foregroundColor: UIColor.darkGrayColor())
+            foregroundColor: UIColor.orangeColor())
         
         // Set up the frames
         let views = [gameboard]
@@ -124,16 +124,42 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
     @objc(tap:)
     func tapCommand(r: UIGestureRecognizer!) {
         let location = r.locationInView(board)
-        println(location.x, location.y)
-        println(board?.abstractLocation(location))
         let aLocation = board?.abstractLocation(location)
         if (aLocation!.isValid) {
-            placeAPiece((aLocation!.x, aLocation!.y), side: Side.White)
+            assert(model != nil)
+            let m = model!
+            
+            //
+            switch m.side {
+            case Side.Black:
+                println("Tap Black!")
+            default:
+                println("Tap White!")
+            }
+            //
+            
+            
+            m.queueMove(m.side, location: (aLocation!.x, aLocation!.y), completion: { (changed: Bool) -> () in
+                if changed {
+                    self.followUp()
+                }
+            })
         }
+        
+        
+        
+        
+        
+        
+        
+        println(location.x, location.y)
+        println(board?.abstractLocation(location))
         println("Up!")
     }
     
-
+    func followUp() {
+        
+    }
     
     func placeAPiece(location: (Int, Int), side: Side) {
         assert(board != nil)

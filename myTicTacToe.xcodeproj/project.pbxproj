@@ -20,6 +20,7 @@
 		04B76B251AB19CB80067C570 /* TicTacToeGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B76B241AB19CB80067C570 /* TicTacToeGame.swift */; };
 		04B76B281AB19D0F0067C570 /* AuxiliaryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B76B261AB19D0F0067C570 /* AuxiliaryModels.swift */; };
 		04B76B291AB19D0F0067C570 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B76B271AB19D0F0067C570 /* GameModel.swift */; };
+		04B76B2B1AB3FE120067C570 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B76B2A1AB3FE120067C570 /* StatusView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		04B76B241AB19CB80067C570 /* TicTacToeGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TicTacToeGame.swift; path = myTicTacToe/TicTacToeGame.swift; sourceTree = "<group>"; };
 		04B76B261AB19D0F0067C570 /* AuxiliaryModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuxiliaryModels.swift; sourceTree = "<group>"; };
 		04B76B271AB19D0F0067C570 /* GameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		04B76B2A1AB3FE120067C570 /* StatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 			children = (
 				04A087CB1AB074FE00C5F75D /* GameboardView.swift */,
 				04A087CD1AB0753F00C5F75D /* PieceView.swift */,
+				04B76B2A1AB3FE120067C570 /* StatusView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				04A087A41AB01A8A00C5F75D /* ViewController.swift in Sources */,
 				04B76B291AB19D0F0067C570 /* GameModel.swift in Sources */,
 				04A087D01AB0759D00C5F75D /* AppearanceProvider.swift in Sources */,
+				04B76B2B1AB3FE120067C570 /* StatusView.swift in Sources */,
 				04A087A21AB01A8A00C5F75D /* AppDelegate.swift in Sources */,
 				04B76B281AB19D0F0067C570 /* AuxiliaryModels.swift in Sources */,
 				04A087C21AB01AF700C5F75D /* MyClass.swift in Sources */,

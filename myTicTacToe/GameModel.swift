@@ -21,7 +21,8 @@ class GameModel : NSObject {
     
     let dimension : Int
     let threshold : Int
-    let side : Side
+    
+    var side : Side
     
     
     var gameboard : SquareGameboard<PieceObject>
@@ -51,6 +52,7 @@ class GameModel : NSObject {
     }
     
     func reset() {
+        side = Side.Black
         gameboard.setAll(.Empty)
         queue.removeAll(keepCapacity: true)
         timer.invalidate()
@@ -138,14 +140,41 @@ class GameModel : NSObject {
     
     
     func performMove(location : (Int, Int), side : Side) -> Bool {
+        let (x, y) = location
+        switch gameboard[x, y] {
+        case PieceObject.Empty:
+            gameboard[x, y] = PieceObject.Piece(side)
+            delegate.placeAPiece(location, side: side)
+            self.side.alt()
+            switch self.side {
+            case Side.Black:
+                println("Black!")
+            default:
+                println("White!")
+            }
+            return true
+        default:
+            return false
+        }
         
         
-        
-        return false
     }
+    
+    // This is the very first, brutal and primitive version
+    // Further versions should contain analysis of the situation
+    // The model should be upgraded.
+    
+    // It's actually KMP isn't it..
+    
+    // Maybe we should invent a new data structure for this simple and specific problem
+    // The points should record more things I think...
+    // Maybe a new algorithm for updating and inserting..
+    // Maybe we should put it off
     
     func sideHasWon(side : Side) -> Bool {
 //        for i in 0..<dimension {
+        
+        
         
         return false
     }

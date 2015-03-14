@@ -32,7 +32,7 @@ class PieceView : UIView {
         
         self.side = side
         backgroundColor = delegate.pieceColor(side)
-        
+        println(backgroundColor)
         
     }
     

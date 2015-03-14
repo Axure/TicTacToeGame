@@ -127,10 +127,10 @@ class GameboardView : UIView {
     func placeAPiece(location: (Int, Int), side: Side) {
         
         let (row, col) = location
-        let x = piecePadding + CGFloat(col)*(pieceWidth + piecePadding)
-        let y = piecePadding + CGFloat(row)*(pieceWidth + piecePadding)
+        let x = piecePadding + CGFloat(col)*(pieceWidth + piecePadding) + pieceWidth * 0.1
+        let y = piecePadding + CGFloat(row)*(pieceWidth + piecePadding) + pieceWidth * 0.1
         let r = (cornerRadius >= 2) ? cornerRadius - 2 : 0
-        let piece = PieceView(position: CGPointMake(x, y), width: pieceWidth, side: side, radius: r, delegate: provider)
+        let piece = PieceView(position: CGPointMake(x, y), width: pieceWidth * 0.8, side: side, radius: r, delegate: provider)
         piece.layer.setAffineTransform(CGAffineTransformMakeScale(tilePopStartScale, tilePopStartScale))
         
         addSubview(piece)

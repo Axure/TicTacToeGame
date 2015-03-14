@@ -20,10 +20,14 @@ class AppearanceProvider: AppearanceProviderProtocol {
         
         switch side {
         case Side.White:
-            return UIColor(red: 238.0/255.0, green: 228.0/255.0, blue: 218.0/255.0, alpha: 1.0)
+            println("Chose color white!")
+            return UIColor(red: 38.0/255.0, green: 28.0/255.0, blue: 18.0/255.0, alpha: 1.0)
         case Side.Black:
-            return UIColor(red: 238.0/255.0, green: 228.0/255.0, blue: 218.0/255.0, alpha: 1.0)
+            println("Chose color black!")
+            return UIColor(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
         default:
+            
+            println("Chose color exception!")
             return UIColor.whiteColor()
         }
         
