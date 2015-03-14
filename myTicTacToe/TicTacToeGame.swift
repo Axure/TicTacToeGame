@@ -43,7 +43,7 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
         model = GameModel(dimension: dimension, threshold: threshold, delegate: self)
         
         view.backgroundColor = UIColor.whiteColor()
-        
+        setupTapControls()
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -53,6 +53,14 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGame()
+    }
+    
+    func setupTapControls() {
+        
+        
+        let tap = UITapGestureRecognizer(target: self, action: Selector("tap:"))
+        tap.numberOfTapsRequired = 1
+        view.addGestureRecognizer(tap)
     }
     
     func setupGame() {
@@ -112,6 +120,20 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
         let m = model!
         
     }
+    
+    @objc(tap:)
+    func tapCommand(r: UIGestureRecognizer!) {
+        let location = r.locationInView(board)
+        println(location.x, location.y)
+        println(board?.abstractLocation(location))
+        let aLocation = board?.abstractLocation(location)
+        if (aLocation!.isValid) {
+            placeAPiece((aLocation!.x, aLocation!.y), side: Side.White)
+        }
+        println("Up!")
+    }
+    
+
     
     func placeAPiece(location: (Int, Int), side: Side) {
         assert(board != nil)

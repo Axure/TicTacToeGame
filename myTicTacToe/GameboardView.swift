@@ -73,6 +73,44 @@ class GameboardView : UIView {
         }
     }
     
+    
+    func abstractLocation(tapLocation : CGPoint) -> (x : Int, y : Int, isValid : Bool) {
+        var x, y : Int
+        x = -1
+        y = -1
+        var isValidX = false
+        var isValidY = false
+        
+        var xCursor = piecePadding
+        var yCursor = piecePadding
+        
+        for i in 0..<dimension {
+            
+            if (tapLocation.x > xCursor - piecePadding) && (tapLocation.x < xCursor) {
+                return (-1, -1, false)
+            }
+            if (tapLocation.x >= xCursor) && (tapLocation.x <= xCursor + pieceWidth) {
+                x = i
+                isValidX = true
+                break
+            }
+            xCursor += piecePadding + pieceWidth
+        }
+        
+        for j in 0..<dimension {
+            if (tapLocation.y > yCursor - piecePadding) && (tapLocation.y < yCursor) {
+                return (-1, -1, false)
+            }
+            if (tapLocation.y >= yCursor) && (tapLocation.y <= yCursor + pieceWidth) {
+                y = j
+                isValidY = true
+                break
+            }
+            yCursor += piecePadding + pieceWidth
+        }
+        return (y, x, isValidX && isValidY)
+    }
+    
     func positionIsValid(pos: (Int, Int)) -> Bool {
         let (x, y) = pos
         return (x >= 0 && x < dimension && y >= 0 && y < dimension)

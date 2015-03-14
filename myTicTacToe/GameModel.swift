@@ -128,7 +128,7 @@ class GameModel : NSObject {
                 switch gameboard[i, j] {
                 case .Empty:
                     buffer += [(i, j)]
-                case .Tile:
+                default:
                     break
                 }
             }
