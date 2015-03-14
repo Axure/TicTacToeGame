@@ -23,6 +23,8 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
     var board : GameboardView?
     var model : GameModel?
     
+    var statusView : StatusViewProtocol?
+    
     let boardWidth : CGFloat = 250.0
     
     let thinPadding: CGFloat = 3.0
@@ -102,14 +104,26 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
             backgroundColor: UIColor.blackColor(),
             foregroundColor: UIColor.orangeColor())
         
+        // Create the status board
+        let statusView = StatusView(backgroundColor: UIColor.grayColor(), textColor: UIColor.whiteColor(), font: UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFontOfSize(16.0),
+            radius: 6)
+        statusView.side = Side.Black
+        
         // Set up the frames
-        let views = [gameboard]
+        let views = [gameboard, statusView]
         
         var f = gameboard.frame
         f.origin.x = xPositionToCenterView(gameboard)
         f.origin.y = yPositionForViewAtPosition(0, views)
         gameboard.frame = f
         
+        var g = statusView.frame
+        g.origin.x = xPositionToCenterView(statusView)
+        g.origin.y = yPositionForViewAtPosition(1, views)
+        statusView.frame = g
+        
+        view.addSubview(statusView)
+        self.statusView = statusView
         
         // Add to game state
         view.addSubview(gameboard)
@@ -159,6 +173,14 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
     
     func followUp() {
         
+    }
+    
+    func sideChanged(side: Side) {
+        if statusView == nil {
+            return
+        }
+        let s = statusView!
+        s.sideChanged(newSide : side)
     }
     
     func placeAPiece(location: (Int, Int), side: Side) {

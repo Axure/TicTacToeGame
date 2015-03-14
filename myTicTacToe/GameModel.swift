@@ -12,6 +12,7 @@ import UIKit
 protocol GameModelProtocol : class {
     
     func placeAPiece(location : (Int, Int), side : Side)
+    func sideChanged(side : Side)
 }
 
 
@@ -22,7 +23,11 @@ class GameModel : NSObject {
     let dimension : Int
     let threshold : Int
     
-    var side : Side
+    var side : Side {
+        didSet {
+            delegate.sideChanged(side)
+        }
+    }
     
     
     var gameboard : SquareGameboard<PieceObject>

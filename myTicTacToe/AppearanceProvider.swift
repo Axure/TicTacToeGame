@@ -19,11 +19,11 @@ class AppearanceProvider: AppearanceProviderProtocol {
     func pieceColor(side: Side) -> UIColor {
         
         switch side {
-        case Side.White:
-            println("Chose color white!")
-            return UIColor(red: 38.0/255.0, green: 28.0/255.0, blue: 18.0/255.0, alpha: 1.0)
         case Side.Black:
-            println("Chose color black!")
+            println("Chose color Black!")
+            return UIColor(red: 38.0/255.0, green: 28.0/255.0, blue: 18.0/255.0, alpha: 1.0)
+        case Side.White:
+            println("Chose color White!")
             return UIColor(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
         default:
             

@@ -8,11 +8,23 @@
 
 import UIKit
 
-class StatusView : UIView {
+protocol StatusViewProtocol {
+    func sideChanged(newSide s: Side)
+}
+
+class StatusView : UIView, StatusViewProtocol {
     
     var side : Side = Side.Black {
         didSet {
-            label.text = "\(side) Side"
+            switch side {
+            case Side.Black:
+                label.text = "Next: Black Side"
+            default:
+                label.text = "Next: White Side"
+            }
+            
+            
+            self.piece.side = side
         }
     }
     
@@ -23,19 +35,10 @@ class StatusView : UIView {
     var piece: PieceView
     
     init(backgroundColor bgcolor: UIColor, textColor tcolor: UIColor, font: UIFont, radius r: CGFloat) {
-        var pieceWidth : CGFloat
-        var piecePadding : CGFloat
-        var cornerRadius : CGFloat
-        pieceWidth = 30
-        piecePadding = 3
-        cornerRadius = 3
-        let (row, col) = (1, 1)
-        let x = piecePadding + CGFloat(col)*(pieceWidth + piecePadding)
-        let y = piecePadding + CGFloat(row)*(pieceWidth + piecePadding)
-        let tilePopStartScale: CGFloat = 0.1
-        let r = (cornerRadius >= 2) ? cornerRadius - 2 : 0
-        self.piece = PieceView(position: CGPointMake(x, y), width: pieceWidth, side: side, radius: r, delegate: provider)
-        self.piece.layer.setAffineTransform(CGAffineTransformMakeScale(tilePopStartScale, tilePopStartScale))
+        
+        
+        self.piece = PieceView(position: CGPointMake(0, 0), width: 200, side: side, radius: 25, delegate: provider)
+        self.piece.layer.setAffineTransform(CGAffineTransformMakeScale(0.1, 0.1))
         
         label = UILabel(frame: defaultFrame)
         label.textAlignment = NSTextAlignment.Center
@@ -54,8 +57,7 @@ class StatusView : UIView {
     }
     
     func sideChanged(newSide s: Side)  {
-        side = s
-        self.piece.side = s
+        self.side = s
     }
     
 }
