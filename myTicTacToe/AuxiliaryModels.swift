@@ -22,6 +22,24 @@ enum Side {
             break
         }
     }
+    
+    func inverse() ->Side {
+        switch self {
+        case White:
+            return Black
+        case Black:
+            return White
+        default:
+            break
+        }
+    }
+}
+
+enum Direction {
+    case Vertical
+    case Horizontal
+    case Skew
+    case Subskew
 }
 
 enum PieceObject {

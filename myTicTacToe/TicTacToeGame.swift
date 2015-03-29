@@ -173,6 +173,48 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
     
     func followUp() {
         
+        // Check winning and change it?
+        // Remember this is a view controller
+        assert(model != nil)
+        let m = model!
+        
+        let a = m.sideHasWon(m.side.inverse())
+        println(a.result)
+        if a.result {
+            m.finished = true
+            m.win(m.side.inverse(), point: a.point, direction: a.direction)
+        }
+        
+        
+    }
+    
+    func win(side : Side, point : (Int, Int), direction: Direction) {
+        assert(board != nil)
+        let b = board!
+        println("Has Won!")
+        
+        var (x, y) = point
+        
+        for i in 0..<threshold {
+            
+            b.highlightPiece((x, y))
+            
+            switch(direction) {
+            case Direction.Horizontal:
+                y++
+            case Direction.Vertical:
+                x++
+            case Direction.Skew:
+                x++
+                y++
+            case Direction.Subskew:
+                x--
+                y++
+            }
+        }
+        
+        
+        // implement the MVC structure.
     }
     
     func sideChanged(side: Side) {

@@ -13,6 +13,7 @@ protocol GameModelProtocol : class {
     
     func placeAPiece(location : (Int, Int), side : Side)
     func sideChanged(side : Side)
+    func win(side : Side, point : (Int, Int), direction: Direction)
 }
 
 
@@ -22,6 +23,10 @@ class GameModel : NSObject {
     
     let dimension : Int
     let threshold : Int
+    
+
+    
+    var finished = false
     
     var side : Side {
         didSet {
@@ -145,22 +150,28 @@ class GameModel : NSObject {
     
     
     func performMove(location : (Int, Int), side : Side) -> Bool {
-        let (x, y) = location
-        switch gameboard[x, y] {
-        case PieceObject.Empty:
-            gameboard[x, y] = PieceObject.Piece(side)
-            delegate.placeAPiece(location, side: side)
-            self.side.alt()
-            switch self.side {
-            case Side.Black:
-                println("Black!")
+        
+        if !finished {
+            let (x, y) = location
+            switch gameboard[x, y] {
+            case PieceObject.Empty:
+                gameboard[x, y] = PieceObject.Piece(side)
+                delegate.placeAPiece(location, side: side)
+                self.side.alt()
+                switch self.side {
+                case Side.Black:
+                    println("Black!")
+                default:
+                    println("White!")
+                }
+                println(sideHasWon(side))
+                return true
             default:
-                println("White!")
+                return false
             }
-            return true
-        default:
-            return false
         }
+        
+        return false
         
         
     }
@@ -176,13 +187,124 @@ class GameModel : NSObject {
     // Maybe a new algorithm for updating and inserting..
     // Maybe we should put it off
     
-    func sideHasWon(side : Side) -> Bool {
-//        for i in 0..<dimension {
-        
-        
-        
-        return false
+    
+    
+    func win(side : Side, point : (Int, Int), direction: Direction) {
+        delegate.win(side, point: point, direction: direction)
     }
+    
+    func sideHasWon(side : Side) -> (result: Bool, point: (Int, Int), direction: Direction) {
+//        for i in 0..<dimension {
+        // We need a scan algorithm...
+        // We need ALGORITHM!
+        
+        var point : (Int ,Int)
+        
+        for i in 0..<dimension - threshold + 1 {
+            
+            for j in 0..<dimension - threshold + 1 {
+                // ba jindu chaoqian gangan caishi weiyi zhengtu...
+                // zhenglu, zhengdao!
+                
+                
+            }
+        }
+        
+//        var result : Bool
+        
+        let a = aPointHasWon(side, point: (0, 0), direction: Direction.Skew)
+        if (a.result) {
+            return a
+        }
+        
+        let b = aPointHasWon(side, point: (dimension - 1, 0), direction: Direction.Subskew)
+        if (b.result) {
+            return b
+        }
+        
+        
+            
+        for i in 0..<dimension {
+            for j in 0..<dimension - threshold + 1 {
+                
+                let a = aPointHasWon(side, point: (i, j), direction: Direction.Horizontal)
+                if (a.result) {
+                    return a
+                }
+            }
+        }
+        
+        for i in 0..<dimension - threshold + 1 {
+            for j in 0..<dimension {
+                
+                let a = aPointHasWon(side, point: (i, j), direction: Direction.Vertical)
+                if (a.result) {
+                    return a
+                }
+            }
+        }
+
+        
+        // Scan vertically
+        
+        
+        
+        return (false, (-1, -1), Direction.Skew)
+    }
+    
+    func aPointHasWon(side: Side, point: (x: Int, y: Int), direction: Direction) -> (result: Bool, point: (Int, Int), direction: Direction) {
+        
+        var (x, y) = point
+        var _result: Bool
+        
+
+        
+        for i in 0..<threshold {
+            
+            switch(gameboard[x, y]) {
+            case .Piece(Side.Black):
+                if side != Side.Black {
+                    return (false, (-1, -1), Direction.Skew)
+                }
+            case .Piece(Side.White):
+                if side != Side.White {
+                    return (false, (-1, -1), Direction.Skew)
+                }
+            default:
+                return (false, (-1, -1), Direction.Skew)
+            }
+            
+            switch(direction) {
+            case Direction.Horizontal:
+                y++
+            case Direction.Vertical:
+                x++
+            case Direction.Skew:
+                x++
+                y++
+            case Direction.Subskew:
+                x--
+                y++
+            }
+        }
+        
+        return (true, point, direction)
+
+        
+        
+    }
+    // How to highlight the pieces leading to victory?
+    // It is more about knowledge and less about intelligence.
+    // Diligence and will
+    
+    
+    
+    
+    // A new function for winning
+    
+    // After a winner is detected, the gameboard is frozen and an action is fired
+    // We need to display the animation for winner, for only once
+    // After the board is frozen, any further moves will be banned.
     
     
     

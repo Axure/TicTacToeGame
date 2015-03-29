@@ -152,7 +152,33 @@ class GameboardView : UIView {
     }
         
     
+    // We need to draw the closure and animation of several blocks
     
+
+    
+    func highlightPiece(point : (x: Int, y : Int)) {
+        let piece = pieces[NSIndexPath(forRow: point.x, inSection: point.y)]!
+        
+        UIView.animateWithDuration(tileExpandTime, delay: tilePopDelay, options: UIViewAnimationOptions.TransitionNone,
+            animations: { () -> Void in
+                // Make the tile 'pop'
+                piece.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
+            },
+            completion: { (finished: Bool) -> Void in
+                // Shrink the tile after it 'pops'
+                UIView.animateWithDuration(self.tileContractTime, animations: { () -> Void in
+                    piece.layer.setAffineTransform(CGAffineTransformIdentity)
+                })
+        })
+    }
+    
+    func tran (f1 : Int -> Int) -> (Int -> Int) {
+        return {b in f1(b) * f1(b)}
+    }
+    
+//    func tran2 (f1 : (Int -> Int) -> (Int, Int)) -> (Int -> Int) {
+//        return {b in f1(b) * f1(b)}
+//    }
     
 }
 
