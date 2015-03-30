@@ -152,6 +152,9 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
             }
             //
             
+            // You need to take care of the action flow...
+            // Only when an animation has completed can the next be fired. How to achieve that?
+            
             
             m.queueMove(m.side, location: (aLocation!.x, aLocation!.y), completion: { (changed: Bool) -> () in
                 if changed {
