@@ -10,6 +10,7 @@ import UIKit
 
 protocol StatusViewProtocol {
     func sideChanged(newSide s: Side)
+    func textChanged(newText: NSString)
 }
 
 class StatusView : UIView, StatusViewProtocol {
@@ -58,6 +59,10 @@ class StatusView : UIView, StatusViewProtocol {
     
     func sideChanged(newSide s: Side)  {
         self.side = s
+    }
+    
+    func textChanged(newText: NSString) {
+        label.text = newText
     }
     
 }

@@ -216,6 +216,16 @@ class TicTacToeGameViewController : UIViewController, GameModelProtocol {
             }
         }
         
+        let a = statusView!
+        switch(side) {
+        case Side.Black:
+            a.textChanged("Black Won!")
+        case Side.White:
+            a.textChanged("White Won!")
+        }
+        
+        //Is it appropriate to write such kinds of code here?
+        //What should we specify to invoke that method of changing the score view?
         
         // implement the MVC structure.
     }
