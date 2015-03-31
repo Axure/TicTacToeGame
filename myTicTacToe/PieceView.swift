@@ -50,10 +50,10 @@ import UIKit
 //    
 //}
 
-class PieceView : CrossView {
+class PieceView : UIView {
     
     // How to inherit from two different classes and choose the respective ones to run? In other words, how to merge to classes with an option to switch?
-    
+    var color : UIColor
     var delegate : AppearanceProviderProtocol
     var side: Side = Side.Black {
         didSet {
@@ -64,20 +64,59 @@ class PieceView : CrossView {
         // Understanding and applying such kind of codes
     }
     
+    
+    
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")
     }
     
+    override func drawRect(rect: CGRect) {
+        
+        switch(side) {
+        case Side.Black:
+            let lineWidth : CGFloat = 5.0
+            var context = UIGraphicsGetCurrentContext()
+            CGContextSetLineWidth(context, lineWidth);
+            color.set()
+            
+            var startPoint, endPoint : CGPoint
+            startPoint = CGPointMake(0.0 + lineWidth, 0.0 + lineWidth)
+            endPoint = CGPointMake(frame.size.width - lineWidth, frame.size.height - lineWidth)
+            CGContextAddLines(context, [startPoint, endPoint], 2)
+            
+            startPoint = CGPointMake(0.0 + lineWidth, frame.size.height - lineWidth)
+            endPoint = CGPointMake(frame.size.width - lineWidth, 0 + lineWidth)
+            CGContextAddLines(context, [startPoint, endPoint], 2)
+            
+            // Dig deeper into the layout design!
+            CGContextStrokePath(context)
+            CGContextFillPath(context)
+        case Side.White:
+            let lineWidth : CGFloat = 5.0
+            var context = UIGraphicsGetCurrentContext()
+            CGContextSetLineWidth(context, lineWidth);
+            color.set()
+            CGContextAddArc(context, (frame.size.width)/2 - lineWidth/2, frame.size.height/2 - lineWidth/2, (frame.size.width - 10)/2 - lineWidth, 0.0, CGFloat(M_PI * 2.0), 1)
+            // Dig deeper into the layout design!
+            CGContextStrokePath(context)
+        }
+        
+
+    }
+    
     init (position : CGPoint, width : CGFloat, side : Side, radius : CGFloat, delegate d : AppearanceProviderProtocol) {
         
-        delegate = d;
         
-        super.init(frame: CGRectMake(position.x, position.y, width, width), color: delegate.pieceColor(side))
+        delegate = d;
+        self.color = d.pieceColor(side)
+        self.side = side
+        
+        
+        super.init(frame: CGRectMake(position.x, position.y, width, width))
         
         // Maybe we need to write a class for the circle inherited from a rectangle and override the CGRectMake method?
+        self.backgroundColor = UIColor.clearColor()
         
-        
-        self.side = side
 //        backgroundColor = delegate.pieceColor(side)
         println(backgroundColor)
         
@@ -85,69 +124,3 @@ class PieceView : CrossView {
     
 }
 
-class CircleView : UIView {
-    
-    var color : UIColor
-    
-    init(frame: CGRect, color: UIColor) {
-        self.color = color
-        
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
-        
-    }
-    
-    required init(coder: NSCoder) {
-        fatalError("NSCoding not supported")
-    }
-    
-    override func drawRect(rect: CGRect) {
-        let lineWidth : CGFloat = 5.0
-        var context = UIGraphicsGetCurrentContext()
-        CGContextSetLineWidth(context, lineWidth);
-        color.set()
-        CGContextAddArc(context, (frame.size.width)/2 - lineWidth/2, frame.size.height/2 - lineWidth/2, (frame.size.width - 10)/2 - lineWidth, 0.0, CGFloat(M_PI * 2.0), 1)
-        // Dig deeper into the layout design!
-        CGContextStrokePath(context)
-    }
-    
-}
-
-class CrossView : UIView {
-    
-    var color : UIColor
-    
-    init(frame: CGRect, color: UIColor) {
-        self.color = color
-        
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
-        
-    }
-    
-    required init(coder: NSCoder) {
-        fatalError("NSCoding not supported")
-    }
-    
-    override func drawRect(rect: CGRect) {
-        let lineWidth : CGFloat = 5.0
-        var context = UIGraphicsGetCurrentContext()
-        CGContextSetLineWidth(context, lineWidth);
-        color.set()
-        
-        var startPoint, endPoint : CGPoint
-        startPoint = CGPointMake(0.0 + lineWidth, 0.0 + lineWidth)
-        endPoint = CGPointMake(frame.size.width - lineWidth, frame.size.height - lineWidth)
-        CGContextAddLines(context, [startPoint, endPoint], 2)
-        
-        startPoint = CGPointMake(0.0 + lineWidth, frame.size.height - lineWidth)
-        endPoint = CGPointMake(frame.size.width - lineWidth, 0 + lineWidth)
-        CGContextAddLines(context, [startPoint, endPoint], 2)
-        
-        // Dig deeper into the layout design!
-        CGContextStrokePath(context)
-        CGContextFillPath(context);
-    }
-    
-    
-}
